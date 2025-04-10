@@ -18,7 +18,16 @@ public class SecurityConfig {
                         .requestMatchers("/", "/login").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers("/my/**").hasAnyRole("ADMIN", "USER")
-                        .anyRequest().authenticated());
+                        .anyRequest().authenticated()
+                );
+
+        http
+                .formLogin((auth) -> auth.loginPage("/login")
+                        .loginProcessingUrl("/loginProc").permitAll()
+                );
+
+        http
+                .csrf((auth) -> auth.disable());
 
         return http.build();
     }
